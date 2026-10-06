@@ -2,6 +2,7 @@ import os
 import sys
 import pygame as pg
 import random
+import time
 
 
 WIDTH, HEIGHT = 1100, 650
@@ -26,6 +27,15 @@ def check_bound(obj_rct: pg.Rect) -> tuple[bool, bool]:
 
 
 def gameover(screen: pg.Surface) -> None:
+    """
+    ゲームオーバー画面を表示する。
+
+    引数:
+        screen: ゲーム画面のSurface
+
+    戻り値:
+        なし
+    """
     black = pg.Surface((WIDTH, HEIGHT))
     black.fill((0, 0, 0))
     black.set_alpha(150)
@@ -33,18 +43,24 @@ def gameover(screen: pg.Surface) -> None:
     gameover_img = font.render("Game Over", True, (255, 255, 255))
 
     kk_img = pg.transform.rotozoom(
-        pg.image.load("fig/6.png"), 0, 0.9
+        pg.image.load("fig/8.png"), 0, 0.9
     )
-    kk_rct = kk_img.get_rect()
-    kk_rct.center = (WIDTH // 2, HEIGHT // 2)
+    kkl_rct = kk_img.get_rect()
+    kkl_rct.center = (WIDTH // 2 - 190, HEIGHT // 2)
 
-    black.blit(gameover_img, gameover_img.get_rect(
-        center=(WIDTH // 2, HEIGHT // 2 - 100)
-    ))
-    black.blit(kk_img, kk_rct)
+    kkr_rct = kk_img.get_rect()
+    kkr_rct.center = (WIDTH // 2 + 190, HEIGHT // 2)
+      
+    black.blit(gameover_img, gameover_img.get_rect( 
+        center=(WIDTH // 2, HEIGHT // 2) 
+    )) 
+
+    black.blit(kk_img, kkl_rct)
+    black.blit(kk_img, kkr_rct)
+
     screen.blit(black, (0, 0))
     pg.display.update()
-    pg.time.wait(5000)
+    time.sleep(5)
 
 
 def main():
@@ -88,6 +104,7 @@ def main():
         if not y:
             vy *= -1
         if kk_rct.colliderect(bb_rct):
+            gameover(screen)
             return
         screen.blit(bb_img, bb_rct)
         pg.display.update()
