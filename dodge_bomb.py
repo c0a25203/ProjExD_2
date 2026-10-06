@@ -66,9 +66,7 @@ def gameover(screen: pg.Surface) -> None:
 def init_bb_imgs() -> tuple[list[pg.Surface], list[int]]:
     """
     爆弾の大きさと加速度のリストを作成する。
-
-    戻り値:
-    爆弾Surfaceのリストと加速度のリスト
+    戻り値:爆弾Surfaceのリストと加速度のリスト
     """
     bb_imgs = []
     for r in range(1, 11):
