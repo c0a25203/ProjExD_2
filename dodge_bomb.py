@@ -7,12 +7,14 @@ import random
 WIDTH, HEIGHT = 1100, 650
 os.chdir(os.path.dirname(os.path.abspath(__file__)))
 
+
 DELTA = {
     pg.K_UP: (0, -5),
     pg.K_DOWN: (0, +5),
     pg.K_LEFT: (-5, 0),
     pg.K_RIGHT: (+5, 0),
 }
+
 
 def check_bound(obj_rct: pg.Rect) -> tuple[bool, bool]:
     x, y = True, True
@@ -21,6 +23,29 @@ def check_bound(obj_rct: pg.Rect) -> tuple[bool, bool]:
     if obj_rct.top < 0 or HEIGHT < obj_rct.bottom:
         y = False
     return x, y
+
+
+def gameover(screen: pg.Surface) -> None:
+    black = pg.Surface((WIDTH, HEIGHT))
+    black.fill((0, 0, 0))
+    black.set_alpha(150)
+    font = pg.font.Font(None, 80)
+    gameover_img = font.render("Game Over", True, (255, 255, 255))
+
+    kk_img = pg.transform.rotozoom(
+        pg.image.load("fig/6.png"), 0, 0.9
+    )
+    kk_rct = kk_img.get_rect()
+    kk_rct.center = (WIDTH // 2, HEIGHT // 2)
+
+    black.blit(gameover_img, gameover_img.get_rect(
+        center=(WIDTH // 2, HEIGHT // 2 - 100)
+    ))
+    black.blit(kk_img, kk_rct)
+    screen.blit(black, (0, 0))
+    pg.display.update()
+    pg.time.wait(5000)
+
 
 def main():
     pg.display.set_caption("逃げろ！こうかとん")
@@ -62,6 +87,8 @@ def main():
             vx *= -1
         if not y:
             vy *= -1
+        if kk_rct.colliderect(bb_rct):
+            return
         screen.blit(bb_img, bb_rct)
         pg.display.update()
         tmr += 1
