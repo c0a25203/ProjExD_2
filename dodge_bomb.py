@@ -90,16 +90,16 @@ def get_kk_imgs() -> dict[tuple[int, int], pg.Surface]:
     kk_img = pg.image.load("fig/3.png")
 
     kk_dict = {
-        (0, 0): pg.transform.rotozoom(kk_img, 0, 0.9),        # 静止
-        (+5, 0): pg.transform.rotozoom(kk_img, -90, 0.9),     # 右
-        (+5, -5): pg.transform.rotozoom(kk_img, -45, 0.9),   # 右上
-        (0, -5): pg.transform.rotozoom(kk_img, 0, 0.9),      # 上
-        (-5, -5): pg.transform.rotozoom(kk_img, 45, 0.9),    # 左上
-        (-5, 0): pg.transform.rotozoom(kk_img, 90, 0.9),     # 左
-        (-5, +5): pg.transform.rotozoom(kk_img, 135, 0.9),   # 左下
-        (0, +5): pg.transform.rotozoom(kk_img, 180, 0.9),    # 下
-        (+5, +5): pg.transform.rotozoom(kk_img, -135, 0.9),  # 右下
-    }
+    (0, 0): pg.transform.rotozoom(kk_img, 0, 0.9),
+    (+5, 0): pg.transform.rotozoom(kk_img, 180, 0.9),   # 右
+    (+5, -5): pg.transform.rotozoom(kk_img, 135, 0.9),  # 右上
+    (0, -5): pg.transform.rotozoom(kk_img, 270, 0.9),   # 上
+    (-5, -5): pg.transform.rotozoom(kk_img, 315, 0.9),  # 左上
+    (-5, 0): pg.transform.rotozoom(kk_img, 0, 0.9),     # 左
+    (-5, +5): pg.transform.rotozoom(kk_img, 45, 0.9),   # 左下
+    (0, +5): pg.transform.rotozoom(kk_img, 90, 0.9),    # 下
+    (+5, +5): pg.transform.rotozoom(kk_img, 225, 0.9),  # 右下
+}
 
     return kk_dict
 
