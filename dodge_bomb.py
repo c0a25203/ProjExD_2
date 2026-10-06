@@ -46,12 +46,22 @@ def main():
         screen.blit(bg_img, [0, 0]) 
 
         key_lst = pg.key.get_pressed()
+        old_kk_rct = kk_rct.copy()
         for key, mv in DELTA.items():
             if key_lst[key]:
                 kk_rct.move_ip(mv)
-
+        x, y = check_bound(kk_rct)
+        if not x:
+            kk_rct.x = old_kk_rct.x
+        if not y:
+            kk_rct.y = old_kk_rct.y
         screen.blit(kk_img, kk_rct)
         bb_rct.move_ip(vx, vy)
+        x, y = check_bound(bb_rct)
+        if not x:
+            vx *= -1
+        if not y:
+            vy *= -1
         screen.blit(bb_img, bb_rct)
         pg.display.update()
         tmr += 1
