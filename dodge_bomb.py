@@ -14,6 +14,14 @@ DELTA = {
     pg.K_RIGHT: (+5, 0),
 }
 
+def check_bound(obj_rct: pg.Rect) -> tuple[bool, bool]:
+    x, y = True, True
+    if obj_rct.left < 0 or WIDTH < obj_rct.right:
+        x = False
+    if obj_rct.top < 0 or HEIGHT < obj_rct.bottom:
+        y = False
+    return x, y
+
 def main():
     pg.display.set_caption("逃げろ！こうかとん")
     screen = pg.display.set_mode((WIDTH, HEIGHT))
@@ -43,8 +51,11 @@ def main():
                 kk_rct.move_ip(mv)
 
         screen.blit(kk_img, kk_rct)
+        bb_rct.move_ip(vx, vy)
+        screen.blit(bb_img, bb_rct)
         pg.display.update()
         tmr += 1
+        
         clock.tick(50)
 
 if __name__ == "__main__":
