@@ -80,6 +80,30 @@ def init_bb_imgs() -> tuple[list[pg.Surface], list[int]]:
     return bb_imgs, bb_accs
 
 
+def get_kk_imgs() -> dict[tuple[int, int], pg.Surface]:
+    """
+    移動方向に対応したこうかとん画像の辞書を作成する。
+
+    戻り値:
+        移動量タプルをキー、こうかとん画像Surfaceを値とする辞書
+    """
+    kk_img = pg.image.load("fig/3.png")
+
+    kk_dict = {
+        (0, 0): pg.transform.rotozoom(kk_img, 0, 0.9),        # 静止
+        (+5, 0): pg.transform.rotozoom(kk_img, -90, 0.9),     # 右
+        (+5, -5): pg.transform.rotozoom(kk_img, -45, 0.9),   # 右上
+        (0, -5): pg.transform.rotozoom(kk_img, 0, 0.9),      # 上
+        (-5, -5): pg.transform.rotozoom(kk_img, 45, 0.9),    # 左上
+        (-5, 0): pg.transform.rotozoom(kk_img, 90, 0.9),     # 左
+        (-5, +5): pg.transform.rotozoom(kk_img, 135, 0.9),   # 左下
+        (0, +5): pg.transform.rotozoom(kk_img, 180, 0.9),    # 下
+        (+5, +5): pg.transform.rotozoom(kk_img, -135, 0.9),  # 右下
+    }
+
+    return kk_dict
+
+kk_imgs = get_kk_imgs()
 def main():
     pg.display.set_caption("逃げろ！こうかとん")
     screen = pg.display.set_mode((WIDTH, HEIGHT))
@@ -104,19 +128,24 @@ def main():
             if event.type == pg.QUIT: 
                 return
         screen.blit(bg_img, [0, 0]) 
-
         key_lst = pg.key.get_pressed()
-        old_kk_rct = kk_rct.copy()
+        sum_mv = [0, 0]
         for key, mv in DELTA.items():
             if key_lst[key]:
-                kk_rct.move_ip(mv)
+                sum_mv[0] += mv[0]
+                sum_mv[1] += mv[1]
+
+        kk_img = kk_imgs[tuple(sum_mv)]
+        old_kk_rct = kk_rct.copy()
+        kk_rct.move_ip(sum_mv)
+        
         x, y = check_bound(kk_rct)
         if not x:
             kk_rct.x = old_kk_rct.x
         if not y:
             kk_rct.y = old_kk_rct.y
         screen.blit(kk_img, kk_rct)
-
+        
         avx = vx * bb_accs[min(tmr // 500, 9)]
         avy = vy * bb_accs[min(tmr // 500, 9)]
 
