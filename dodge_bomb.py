@@ -29,10 +29,8 @@ def check_bound(obj_rct: pg.Rect) -> tuple[bool, bool]:
 def gameover(screen: pg.Surface) -> None:
     """
     ゲームオーバー画面を表示する。
-
     引数:
         screen: ゲーム画面のSurface
-
     戻り値:
         なし
     """
@@ -98,8 +96,8 @@ def get_kk_imgs() -> dict[tuple[int, int], pg.Surface]:
     (0, +5): pg.transform.rotozoom(kk_img, 90, 0.9),    # 下
     (+5, +5): pg.transform.rotozoom(kk_img, 225, 0.9),  # 右下
 }
-
     return kk_dict
+
 
 kk_imgs = get_kk_imgs()
 def main():
@@ -163,9 +161,9 @@ def main():
             return
         screen.blit(bb_img, bb_rct)
         pg.display.update()
-        tmr += 1
-        
+        tmr += 1        
         clock.tick(50)
+
 
 if __name__ == "__main__":
     pg.init()
